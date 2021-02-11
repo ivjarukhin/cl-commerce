@@ -8,14 +8,17 @@ import Header from "./components/header/header.components";
 import SignInAndSignUpPage from "./pages/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import CheckoutPage from "./pages/checkout/checkout.component";
 
-import { connect } from "react-redux";
-import { createStructuredSelector } from "reselect";
-import { setCurrentUser } from "./redux/user/user.actions";
-import { selectCurrentuser } from "./redux/user/user.selectors";
-
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 
+import CurrentUserContext from "./contexts/current-user/current-user.context";
+
 class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      currentUser: null
+    }
+  }
 
   unSunscribeFromAuth =null;
 
@@ -26,13 +29,13 @@ class App extends React.Component {
         const userRef = await createUserProfileDocument(userAuth);
 
         userRef.onSnapshot(snapShot => {
-          setCurrentUser({
+          this.setState({CurrentUser: {
               id: snapShot.id,
               ...snapShot.data()
-          });
+          }});
         });
       }
-      setCurrentUser(userAuth);
+      this.setState({currentUser: userAuth});
     })
   }
 
@@ -43,11 +46,13 @@ class App extends React.Component {
   render() {
     return (
       <div>
+        <CurrentUserContext.Provider value={this.state.currentUser}>
         <Header />
+        </CurrentUserContext.Provider>
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route exact path='/signin' render={()=> this.props.currentUser ? (<Redirect to="/" />) : (<SignInAndSignUpPage />)} />
+          <Route exact path='/signin' render={()=> this.state.currentUser ? (<Redirect to="/" />) : (<SignInAndSignUpPage />)} />
           <Route exact path='/checkout' component={CheckoutPage} />
         </Switch>
       </div>
@@ -55,12 +60,4 @@ class App extends React.Component {
   }
 }
 
-const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentuser
-})
-
-const mapDispatchToProps = dispatch =>({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(App);
+export default App;

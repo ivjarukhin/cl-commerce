@@ -10,8 +10,9 @@ import CheckoutPage from "./pages/checkout/checkout.component";
 
 import { connect } from "react-redux";
 import { createStructuredSelector } from "reselect";
-import { setCurrentUser } from "./redux/user/user.actions";
 import { selectCurrentuser } from "./redux/user/user.selectors";
+import { checkUserSession } from "./redux/user/user.actions";
+
 
 import { auth, createUserProfileDocument, addCollectionAndDocuments } from "./firebase/firebase.utils";
 
@@ -22,7 +23,9 @@ class App extends React.Component {
   unSunscribeFromAuth =null;
 
   componentDidMount() {
-    const {setCurrentUser, collectionsArray} = this.props;
+    const { checkUserSession } = this.props;
+    checkUserSession();
+    //const {setCurrentUser, collectionsArray} = this.props;
     // this.unSunscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
     //   if (userAuth) {
     //     const userRef = await createUserProfileDocument(userAuth);
@@ -60,12 +63,11 @@ class App extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser: selectCurrentuser,
-  collectionsArray: selectCollectionsForPreview
+  currentUser: selectCurrentuser
 });
 
-const mapDispatchToProps = dispatch =>({
-  setCurrentUser: user => dispatch(setCurrentUser(user))
-});
+const mapDispatchToProps = dispatch => ({
+  checkUserSession: () => dispatch(checkUserSession())
+})
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

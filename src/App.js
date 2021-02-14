@@ -20,7 +20,7 @@ import { selectCollectionsForPreview } from "./redux/shop/shop.selectors";
 
 class App extends React.Component {
 
-  unSunscribeFromAuth =null;
+  unSunscribeFromAuth = null;
 
   componentDidMount() {
     const { checkUserSession } = this.props;
@@ -68,6 +68,6 @@ const mapStateToProps = createStructuredSelector({
 
 const mapDispatchToProps = dispatch => ({
   checkUserSession: () => dispatch(checkUserSession())
-})
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(App);

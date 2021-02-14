@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route } from 'react-router-dom';
 import { Switch, Redirect } from "react-router-dom";
 import './App.css';
@@ -13,54 +13,23 @@ import { createStructuredSelector } from "reselect";
 import { selectCurrentuser } from "./redux/user/user.selectors";
 import { checkUserSession } from "./redux/user/user.actions";
 
-
-import { auth, createUserProfileDocument, addCollectionAndDocuments } from "./firebase/firebase.utils";
-
-import { selectCollectionsForPreview } from "./redux/shop/shop.selectors";
-
-class App extends React.Component {
-
-  unSunscribeFromAuth = null;
-
-  componentDidMount() {
-    const { checkUserSession } = this.props;
+const App = ({ checkUserSession, currentUser }) => {
+  useEffect(() => {
     checkUserSession();
-    //const {setCurrentUser, collectionsArray} = this.props;
-    // this.unSunscribeFromAuth = auth.onAuthStateChanged(async userAuth => {
-    //   if (userAuth) {
-    //     const userRef = await createUserProfileDocument(userAuth);
+  }, [checkUserSession]);
 
-    //     userRef.onSnapshot(snapShot => {
-    //       setCurrentUser({
-    //           id: snapShot.id,
-    //           ...snapShot.data()
-    //       });
-    //     });
-    //   }
-    //   setCurrentUser(userAuth);
-    //   //console.log(collectionsArray);
-    //   //addCollectionAndDocuments('collections', collectionsArray.map(({title, items}) => ({title, items})));
-    // });
-  }
-
-  componentWillUnmount() {
-    this.unSunscribeFromAuth();
-  }
-
-  render() {
     return (
       <div>
         <Header />
         <Switch>
           <Route exact path='/' component={HomePage} />
           <Route path='/shop' component={ShopPage} />
-          <Route exact path='/signin' render={()=> this.props.currentUser ? (<Redirect to="/" />) : (<SignInAndSignUpPage />)} />
+          <Route exact path='/signin' render={()=> currentUser ? (<Redirect to="/" />) : (<SignInAndSignUpPage />)} />
           <Route exact path='/checkout' component={CheckoutPage} />
         </Switch>
       </div>
     );
   }
-}
 
 const mapStateToProps = createStructuredSelector({
   currentUser: selectCurrentuser

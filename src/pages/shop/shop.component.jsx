@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Route } from "react-router-dom";
-import { createStructuredSelector } from "reselect";
 import { connect } from "react-redux";
 
 import CollectionPageContainer from "../collection/collection.container";
@@ -9,22 +8,11 @@ import CollectionsOverviewContainer from "../../components/collections-overview/
 
 import { fetchCollectionsStart } from "../../redux/shop/shop.actions";
 
-class ShopPage extends React.Component {
+const ShopPage = ({match, fetchCollectionsStart}) => {
+        useEffect(() => {
+            fetchCollectionsStart();
+        }, [fetchCollectionsStart]);
 
-    componentDidMount() {
-        const { fetchCollectionsStart } = this.props;
-        fetchCollectionsStart();
-
-
-        //this.unsubsribeFromSnapshot = collectionRef.onSnapshot( async snapShot =>
-
-
-        // fetch('https://firestore.googleapis.com/v1/projects/compr_db/databases/(default)/documents/collections')
-        // .then(response => response.json())
-
-    }
-    render() {
-        const { match } = this.props;
         return (
             <div className="shop-page">
                 <Route exact path={`${match.path}`}
@@ -34,7 +22,6 @@ class ShopPage extends React.Component {
             </div>
         )
     }
-}
 
 const mapDispatchToProps = dispatch => ({
     fetchCollectionsStart: () => dispatch(fetchCollectionsStart())

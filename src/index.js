@@ -10,6 +10,8 @@ import App from './App';
 
 import { store, persistor } from "./redux/store";
 
+import * as serviceWorker from "./service-worker";
+
 ReactDOM.render(
   <React.StrictMode>
   <Provider store={store}>
@@ -22,4 +24,6 @@ ReactDOM.render(
   </React.StrictMode>,
   document.getElementById('root')
 );
+
+//serviceWorker.register();
 

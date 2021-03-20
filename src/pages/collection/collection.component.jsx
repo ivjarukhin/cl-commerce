@@ -2,12 +2,16 @@ import React, { useEffect } from "react";
 import { connect } from "react-redux";
 
 import CollectionItem from "../../components/collection-item/collection-item.component";
-import { firestore } from "../../firebase/firebase.utils";
+//import { firestore } from "../../firebase/firebase.utils";
 import { selectCollection } from "../../redux/shop/shop.selectors";
 
-import "./collection.styles.scss";
+import {
+    CollectionPageContainer,
+    CollectionTitle,
+    CollectionItemsContainer
+  } from './collection.styles';
 
-const CollectionPage = ({ collection }) => {
+export const CollectionPage = ({ collection }) => {
     // useEffect(() => {
     //     const unsubscribeFromCollections = firestore
     //     .collection("collections")
@@ -20,16 +24,16 @@ const CollectionPage = ({ collection }) => {
 
     const {title, items} = collection;
     return (
-    <div className="collection-page" >
-        <div className="title">{title}</div>
-        <div className="items">
+    <CollectionPageContainer>
+        <CollectionTitle>{title}</CollectionTitle>
+        <CollectionItemsContainer>
             {
                 items.map(item => (
                     <CollectionItem key={item.id} item={item} />
                 ))
             }
-        </div>
-    </div>
+        </CollectionItemsContainer>
+      </CollectionPageContainer>
     );
 };
 

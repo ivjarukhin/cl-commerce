@@ -26,7 +26,7 @@ describe('CartIcon component', () => {
   });
 
   it('should render the itemCount as the text', () => {
-    const itemCount = parseInt(wrapper.find('ItemCountContainer').text());
+    const itemCount = parseInt(wrapper.find('.item-count').text());
     expect(itemCount).toBe(0);
   });
 });

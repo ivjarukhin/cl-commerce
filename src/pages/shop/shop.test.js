@@ -64,7 +64,7 @@ describe('ShopPage', () => {
     expect(wrapper).toMatchSnapshot();
   });
 
-  it('should render ShopPage component fetch', () => {
+  xit('should render ShopPage component fetch', () => {
     expect(mockFetchCollectionsStart).toHaveBeenCalled();
   });
 });

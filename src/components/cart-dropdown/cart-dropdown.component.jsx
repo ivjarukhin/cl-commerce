@@ -10,10 +10,10 @@ import CartItem from "../cart-item/cart-item.component";
 import { toggleCartHidden } from "../../redux/cart/cart.actions";
 import { selectCartItems } from "../../redux/cart/cart.selectors";
 
-const CartDropdown = ({cartItems, history, dispatch}) => (
+export const CartDropdown = ({cartItems, history, dispatch}) => (
     <div className="cart-dropdown">
         <div className="cart-items">
-            {cartItems.length ?(
+            {cartItems.length ? (
                 cartItems.map(cartItem => (
                 <CartItem key={cartItem.id} item={cartItem} />
             ))) : (

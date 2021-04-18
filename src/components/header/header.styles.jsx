@@ -7,12 +7,13 @@ export const HeaderContainer = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
-    margin-bottom: 25px;
+    margin-bottom: 10px;
 `;
 export const LogoContainer = styled(Link)`
     height: 100%;
     width: 70px;
-    padding: 25px;
+    padding: 5px;
+    padding-left: 30px;
 `
 
 export const OptionsContainer = styled.div`
